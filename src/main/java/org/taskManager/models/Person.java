@@ -24,6 +24,8 @@ public class Person {
     @Column(name = "profile")
     private String yearOfBirth;
 
+    @Column(name = "role")
+    private String role;
     // Конструктор по умолчанию нужен для Spring
     public Person() {
     }
@@ -60,6 +62,9 @@ public class Person {
     public void setPassword(String password) {
         this.password = password;
     }
+
+    public void setRole(String role){ this.role = role; }
+    public String getRole(){ return role; }
 
     @Override
     public String toString() {
