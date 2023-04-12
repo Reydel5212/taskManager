@@ -20,6 +20,7 @@ sidebarBtn.addEventListener("click", ()=>{
 });
 
 //time
+/*
 let time = document.querySelector(".time");
 let date = new Date().toLocaleString('ru', {
     month: 'long',
@@ -30,6 +31,6 @@ let date = new Date().toLocaleString('ru', {
 addEventListener("load",()=>{
     time.innerHTML = date;
 })
-
+*/
 
 

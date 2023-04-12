@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-<html lang="en" dir="ltr" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" dir="ltr" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
     <title> Main </title>
     <link rel="stylesheet" href="/css/style.css">
     <!-- Boxiocns CDN Link -->
     <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
-
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 </head>
@@ -21,7 +21,6 @@
         <span class="logo_name">melia</span>
         <!--<img src="logo.svg" alt="logo" class="logo_name">-->
     </div>
-
     <!--links-->
     <ul class="nav-links">
         <!--profile-->
@@ -32,18 +31,13 @@
                 </div>
                 <div class="name-job">
                     <div class="profile_name" th:text="${person}"></div>
-
                 </div>
-                <!--<form th:action="@{/logout}" th:method="POST">
-                    <input type="submit"value="фы">
-                    <a><i class='bx bx-log-out'></i></a>
-                </form>-->
-                <a href="/logout"><i class='bx bx-log-out'></i></a>
+                    <a href="/logout"><i class='bx bx-log-out'></i></a>
             </div>
         </li>
         <!--mainPage-->
         <li>
-            <a href="#/main" data-href="#/main" onclick="locationResolver(this.dataset.href)">
+            <a href="/main">
                 <i class='bx bx-home-alt' ></i>
                 <span class="link_name">Главная</span>
             </a>
@@ -53,7 +47,7 @@
         </li>
         <!--myTasks-->
         <li>
-            <a href="#/mytask" data-href="#/mytask" onclick="locationResolver(this.dataset.href)">
+            <a href="/task">
                 <i class='bx bx-task'></i>
                 <span class="link_name">Мои задачи</span>
             </a>
@@ -63,7 +57,7 @@
         </li>
         <!--statistics-->
         <li>
-            <a href="#/stat" data-href="#/stat" onclick="locationResolver(this.dataset.href)">
+            <a href="/stat">
                 <i class='bx bx-line-chart' ></i>
                 <span class="link_name">Статистика</span>
             </a>
@@ -86,7 +80,7 @@
         <div class="bottomSettings">
             <!--settings-->
                 <li>
-                    <a href="#/settings" data-href="#/settings" onclick="locationResolver(this.dataset.href)">
+                    <a href="/settings">
                         <i class='bx bx-cog' ></i>
                         <span class="link_name">Настройки</span>
                     </a>
@@ -96,7 +90,7 @@
                 </li>
                 <!--info-->
                 <li>
-                    <a href="#/info" data-href="#/info" onclick="locationResolver(this.dataset.href)">
+                    <a href="/info">
                         <i class='bx bx-info-circle' ></i>
                         <span class="link_name">Информация</span>
                     </a>
@@ -117,7 +111,7 @@
             <span class="text flexer">Главная</span>     <!--change-->
         </div>
         <div class="homeContentGreetingText">
-            <span class="textGreeting time">воскресенье, 12 февраля</span>     <!--change-->
+            <span class="textGreeting time" th:text="${time}"></span>     <!--change-->
             <span class="text">Добро Пожаловать!</span>
             <span class="text" th:text="${person}"></span>     <!--change-->
         </div>
@@ -146,18 +140,12 @@
                             <input type="button" class="tableTaskText button" value="Отменить">
                         </div>
                     </div>
-
                     <!--<p class="tableCell hiddenText">Задачи отсутствуют</p>--> <!--Hidden if no tasks-->
-
                 </div>
             </div>
-
-
         </div>
 
-
         <script src="/script/script.js"></script>
-        <script src="/script/route.js"></script>
     </div>
 </body>
 </html>

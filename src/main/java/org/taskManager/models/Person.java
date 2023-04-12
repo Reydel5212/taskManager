@@ -9,22 +9,22 @@ import javax.validation.constraints.Size;
 @Table(name = "Person")
 public class Person {
     @Id
-    @Column(name = "id")
+    @Column(name = "person_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
     @NotEmpty(message = "Имя не должно быть пустым")
     @Size(min = 2, max = 100, message = "Имя должно быть от 2 до 100 символов длиной")
-    @Column(name = "username")
+    @Column(name = "person_username")
     private String username;
 
-    @Column(name = "password")
+    @Column(name = "person_password")
     private String password;
 
-    @Column(name = "profile")
+    @Column(name = "person_profile")
     private String yearOfBirth;
 
-    @Column(name = "role")
+    @Column(name = "person_role")
     private String role;
     // Конструктор по умолчанию нужен для Spring
     public Person() {

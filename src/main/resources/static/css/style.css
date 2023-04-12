@@ -5,9 +5,14 @@
     padding: 0;
     box-sizing: border-box;
     font-family: 'Poppins', sans-serif;
+
 }
 body{
     overflow: hidden;
+}
+a{
+    text-decoration: none;
+    color: #FFF;
 }
 /*standartSettings*/
 
@@ -302,7 +307,7 @@ body{
     border-radius: 15px;
     width: 50%;
     height: 40px;
-
+    text-decoration: none;
 }
 .button:hover{
     cursor: pointer;
@@ -351,6 +356,7 @@ body{
     justify-content: space-around;
     overflow-y: scroll;
     border-bottom: 1px #FFF solid;
+    text-decoration: none;
 }
 
 /*.tableContent:hover{
@@ -462,5 +468,20 @@ body{
     text-align: center;
     flex-direction: column;
     color: #FFF;
+}
+
+.addTaskContainer{
+    width: 50%;
+    height: 70vh;
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    flex-direction: column;
+    color: #FFF;
+}
+.task_form{
+    display: flex;
+    flex-direction: column;
+
 }
 

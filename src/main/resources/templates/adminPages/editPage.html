@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+        <form th:method="POST" th:action="@{/task/{id}(id = ${task.getId()})}" th:object="${task}" class="task_form">
+            <label for="task_name">Введите название: </label>
+            <input type="text" th:field="*{task_name}" name="task_name" id="task_name">
+            <br>
+
+
+            <label class="form_label" for="task_desc">Введите описание: </label>
+            <input class="form_input" type="text" th:field="*{task_desc}" name="task_desc" id="task_desc">
+            <br>
+
+
+            <label class="form_label" for="task_date">Введите дату: </label>
+            <input class="form_input" type="text" th:field="*{task_date}" name="task_date" id="task_date">
+            <br>
+
+
+            <label class="form_label" for="task_executor_id">Введите исполнителя: </label>
+            <input class="form_input" type="text" th:field="*{task_executor_id}" name="task_executor_id" id="task_executor_id">
+            <br>
+
+
+            <label class="form_label" for="task_executor_name">Введите имя исполнителя: </label>
+            <input class="form_input" type="text" th:field="*{task_executor_name}" name="task_executor_name" id="task_executor_name">
+
+            <br>
+
+            <label class="form_label" for="task_status">Введите статус: </label>
+            <input class="form_input" type="text" th:field="*{task_status}" name="task_status" id="task_status">
+
+            <br>
+
+            <input type="submit" value="Создать">
+            <a href="/task">Назад</a>
+        </form>
+</body>
+</html>
