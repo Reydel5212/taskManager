@@ -1,22 +1,28 @@
 package org.taskManager.models;
 
-
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
+import javax.validation.constraints.*;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table(name = "task")
 public class Task {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "task_id")
     private int id;
 
+    @NotEmpty(message = "Это поле не может быть пустым")
     @Column(name = "task_name")
     private String task_name;
 
+    @NotEmpty(message = "Это поле не может быть пустым")
+    @Size(min = 1, max = 150, message = "Минимальное количество символов 0, максимальное 150")
     @Column(name = "task_desc")
     private String task_desc;
 
@@ -29,10 +35,32 @@ public class Task {
     private String task_executor_name;
 
     @Column(name = "task_executor_id")
-    private int task_executor_id;
-
+    private int taskExecutorId;
+    
     @Column(name = "task_status")
     private int task_status;
+
+
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY,
+            mappedBy = "task")
+    private List<Image> images = new ArrayList<>();
+
+    /*@ManyToOne(cascade = CascadeType.REFRESH, fetch = FetchType.EAGER)
+    private Person person;*/
+
+    public void addImageToProduct(Image image) {
+        image.setTask(this);
+        images.add(image);
+    }
+
+
+    public void setImages(List<Image> images){
+        this.images = images;
+    }
+    public List<Image> getImages(){
+        return images;
+    }
+
 
     public void setId(int id){
         this.id = id;
@@ -61,10 +89,10 @@ public class Task {
     }
 
     public void setTask_executor_id(int task_executor_id){
-        this.task_executor_id = task_executor_id;
+        this.taskExecutorId = task_executor_id;
     }
     public int getTask_executor_id(){
-        return task_executor_id;
+        return taskExecutorId;
     }
 
     public void setTask_executor_name(String task_executor_name){ this.task_executor_name = task_executor_name;}
@@ -79,13 +107,22 @@ public class Task {
 
     @Override
     public String toString(){
-        return "{"+"Task: "
-                +"id - "+id
-                +" taskName - "+task_name
-                +" taskDate - "+task_date
-                +" taskExecutorName - "+task_executor_name
-                +" taskExecutorId - "+task_executor_id
-                +" taskStatus - "+task_status
-                +"}";
+        return  "Task { " +
+                " taskId = "+ id +
+                " taskName = "+ task_name +
+                " taskDate = "+ task_date +
+                " taskExecutorName = "+ task_executor_name +
+                " taskExecutorId = "+ taskExecutorId +
+                " taskStatus = "+ task_status +
+                " }";
     }
+
+
+
+
+    public void setPreviewImageId(){
+
+    }
+
+
 }

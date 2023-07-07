@@ -3,12 +3,14 @@ package org.taskManager.security;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.taskManager.models.Person;
 
 import java.util.Collection;
 import java.util.Collections;
 
+import org.taskManager.models.object.Person;
+
 public class PersonDetails implements UserDetails {
+
     private final Person person;
 
     public PersonDetails(Person person) {
@@ -27,7 +29,7 @@ public class PersonDetails implements UserDetails {
 
     @Override
     public String getUsername() {
-        return this.person.getYearOfBirth();
+        return this.person.getPerson_profile();
     }
 
     @Override
@@ -50,8 +52,8 @@ public class PersonDetails implements UserDetails {
         return true;
     }
 
-    // Нужно, чтобы получать данные аутентифицированного пользователя
     public Person getPerson() {
         return this.person;
     }
+
 }

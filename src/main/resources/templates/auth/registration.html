@@ -1,32 +1,168 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head>
-  <meta charset="UTF-8">
-  <title>Login page</title>
-</head>
-<body>
-<form th:method="POST" th:action="@{/auth/registration}" th:object="${person}">
-  <label for="username">Введите имя пользователя: </label>
-  <input type="text" th:field="*{username}" name="username" id="username">
-  <div style="color: red" th:if="${#fields.hasErrors('username')}" th:errors="*{username}">Username Error</div>
-  <br>
+<html lang="en" dir="ltr" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
-  <label for="password">Введите пароль: </label>
-  <input type="password" th:field="*{password}" name="password" id="password">
-  <div style="color: red" th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Password Error</div>
-  <br>
+  <head>
+    <meta charset="UTF-8">
+    <title> Main </title>
+    <link rel="stylesheet" href="/css/style.css">
+    <!-- Boxiocns CDN Link -->
+    <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  </head>
 
-  <label for="yearOfBirth">Введите год рождения: </label>
-  <input type="text" th:field="*{yearOfBirth}" name="yearOfBirth" id="yearOfBirth">
-  <div style="color: red" th:if="${#fields.hasErrors('yearOfBirth')}" th:errors="*{yearOfBirth}">Password Error</div>
-  <br>
+  <body>
+    <!--sideBar-->
+    <div class="sidebar close">
+      <!--logo-->
+      <div class="logo-details">
+        <img src="/image/logoSec.svg" alt="logo" class="logo">
+        <span class="logo_name">melia</span>
+      </div>
 
-  <input type="submit" value="Sing in">
+      <!--links-->
+      <ul class="nav-links">
+        <!--profile-->
+        <li>
+          <div class="profile-details">
+            <div class="profile-content">
+              <img src="/image/profile.jpg" alt="profileImg">
+            </div>
 
-  <div th:if="${param.error}" style="color: red">
-    Неправильное имя или пароль
-  </div>
-</form>
-<a href="/auth/login">back to login</a>
-</body>
+            <div class="name-job">
+              <div class="profile_name" th:text="${person}"></div>
+            </div>
+
+            <a href="/logout"><i class='bx bx-log-out'></i></a>
+          </div>
+        </li>
+
+        <!--mainPage-->
+        <li>
+          <a href="/main">
+            <i class='bx bx-home-alt'></i>
+            <span class="link_name">Главная</span>
+          </a>
+
+          <ul class="sub-menu blank">
+            <li><a class="link_name" href="#">Главная</a></li>
+          </ul>
+        </li>
+
+        <!--myTasks-->
+        <li>
+          <a href="/task">
+            <i class='bx bx-task'></i>
+            <span class="link_name">Мои задачи</span>
+          </a>
+
+          <ul class="sub-menu blank">
+            <li><a class="link_name" href="#">Мои задачи</a></li>
+          </ul>
+        </li>
+
+        <!--statPage-->
+        <li>
+          <a href="/stat" sec:authorize = "hasRole('ROLE_USER')">
+            <i class='bx bx-line-chart'></i>
+            <span class="link_name">Статистика</span>
+          </a>
+
+          <ul class="sub-menu blank">
+            <li><a class="link_name" href="#">Статистика</a></li>
+          </ul>
+        </li>
+
+        <!--executorPage-->
+        <li>
+          <a href="/executors" sec:authorize="hasRole('ROLE_ADMIN')">
+            <i class='bx bx-user-circle'></i>
+            <span class="link_name">Пользователи</span>
+          </a>
+
+          <ul class="sub-menu blank">
+            <li><a class="link_name">Пользователи</a></li>
+          </ul>
+        </li>
+
+        <!--settingsPage-->
+        <li>
+          <a href="/settings">
+            <i class='bx bx-cog'></i>
+            <span class="link_name">Настройки</span>
+          </a>
+
+          <ul class="sub-menu blank">
+            <li><a class="link_name" href="#">Настройки</a></li>
+          </ul>
+        </li>
+
+        <!--infoPage-->
+        <li>
+          <a href="/info">
+            <i class='bx bx-info-circle'></i>
+            <span class="link_name">Информация</span>
+          </a>
+
+          <ul class="sub-menu blank">
+            <li><a class="link_name" href="#">Информация</a></li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+
+    <!--mainBar-->
+    <div class="home-section">
+      <div class="home-content">
+        <i class='bx bx-menu'></i>
+        <span class="text">Настройки</span>
+      </div>
+
+      <div class="homeContentGreetingText">
+        <span class="textGreeting time" th:text="${time}"></span>
+        <span class="text">Добро Пожаловать!</span>
+        <span class="text"></span>
+      </div>
+
+      <!--homeSectionBackground-->
+      <div class="homeSectionContentBar">
+        <!--table-->
+        <div class="tableContentBar">
+          <div class="homeSectionContentBarTable">
+            <div class="tableContentBar">
+              <div class="contentCenterBar">
+                <div class="addTaskContainer">
+                  <p class="text">Добавить задачу</p><br>
+
+                  <form th:method="POST" th:action="@{/auth/registration}" th:object="${person}" class="task_form">
+                    <label for="username">Введите логин: </label>
+                    <input type="text" th:field="*{username}" name="username" id="username">
+                    <div style="color: red" th:if="${#fields.hasErrors('username')}" th:errors="*{username}">Username Error</div>
+
+                    <label for="password">Введите пароль: </label>
+                    <input type="password" th:field="*{password}" name="password" id="password">
+                    <div style="color: red" th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Password Error</div>
+
+                    <label for="person_profile">Введите имя пользователя: </label>
+                    <input type="text" th:field="*{person_profile}" name="person_profile" id="person_profile">
+                    <div style="color: red" th:if="${#fields.hasErrors('person_profile')}" th:errors="*{person_profile}">Password Error</div>
+
+                    <input type="submit" value="Создать">
+
+                    <div th:if="${param.error}" style="color: red">
+                      Неправильное имя или пароль
+                    </div>
+                  </form>
+
+                  <a href="/task">Назад</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="/script/script.js"></script>
+  </body>
 </html>
