@@ -1,12 +1,14 @@
-package org.taskManager.models;
+package org.taskManager.models.object;
 
 import org.springframework.format.annotation.DateTimeFormat;
+import org.taskManager.models.image.Image;
 
 import javax.persistence.*;
 import javax.validation.constraints.*;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
 
 @Entity
 @Table(name = "task")
@@ -26,8 +28,7 @@ public class Task {
     @Column(name = "task_desc")
     private String task_desc;
 
-    @DateTimeFormat(pattern = "dd/mm/yyyy")
-    @Temporal(TemporalType.DATE)
+    @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "task_date")
     private Date task_date;
 
@@ -36,17 +37,16 @@ public class Task {
 
     @Column(name = "task_executor_id")
     private int taskExecutorId;
-    
-    @Column(name = "task_status")
-    private int task_status;
 
+    @Column(name = "task_interval")
+    private int task_interval;
+
+    @Column(name = "task_interval_status")
+    private int task_interval_status;
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY,
             mappedBy = "task")
     private List<Image> images = new ArrayList<>();
-
-    /*@ManyToOne(cascade = CascadeType.REFRESH, fetch = FetchType.EAGER)
-    private Person person;*/
 
     public void addImageToProduct(Image image) {
         image.setTask(this);
@@ -98,11 +98,18 @@ public class Task {
     public void setTask_executor_name(String task_executor_name){ this.task_executor_name = task_executor_name;}
     public String getTask_executor_name(){ return task_executor_name;}
 
-    public void setTask_status(int task_status){
-        this.task_status = task_status;
+    public int getTask_interval() {
+        return task_interval;
     }
-    public int getTask_status(){
-        return task_status;
+    public void setTask_interval(int task_interval) {
+        this.task_interval = task_interval;
+    }
+
+    public int getTask_interval_status() {
+        return task_interval_status;
+    }
+    public void setTask_interval_status(int task_interval_status) {
+        this.task_interval_status = task_interval_status;
     }
 
     @Override
@@ -113,16 +120,6 @@ public class Task {
                 " taskDate = "+ task_date +
                 " taskExecutorName = "+ task_executor_name +
                 " taskExecutorId = "+ taskExecutorId +
-                " taskStatus = "+ task_status +
                 " }";
     }
-
-
-
-
-    public void setPreviewImageId(){
-
-    }
-
-
 }

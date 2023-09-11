@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head>
+    <meta charset="UTF-8">
+    <title> Мои задачи </title>
+    <link rel="stylesheet" href="/css/style.css">
+    <!-- Boxiocns CDN Link -->
+    <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="shortcut icon" href="/image/logoSecDark.svg" type="image/x-icon">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+</head>
+
+<body>
+<!--preloader-->
+<div class="preloader">
+    <img src="/image/logoShortPreloader.svg" alt="" class="preloaderLogo">
+</div>
+
+<!--sideBar-->
+<div class="sidebar close">
+    <!--logo-->
+    <div class="logo-details">
+        <img src="/image/logoSec.svg" alt="logo" class="logo">
+        <span class="logo_name">melia</span>
+    </div>
+
+    <!--links-->
+    <ul class="nav-links">
+        <!--profile-->
+        <li class="nav-links-list">
+            <div class="profile-details">
+                <div class="profile-content" th:each="image : ${profileImg}">
+                    <img th:src="@{/profileImages/{id} (id = ${image.id})}" alt="profileImg">
+                </div>
+
+                <div class="name-job">
+                    <div class="profile_name" th:text="${person}"></div>
+                </div>
+
+                <form th:action="@{/logout}" th:method="POST">
+                    <a onclick="this.closest('form').submit();return false;" href="/logout"><i class='bx bx-log-out'></i></a>
+                </form>
+            </div>
+        </li>
+
+        <!--mainPage-->
+        <li class="nav-links-list">
+            <a href="/main">
+                <i class='bx bx-home-alt'></i>
+                <span class="link_name">Главная</span>
+            </a>
+
+            <ul class="sub-menu blank">
+                <li><a class="link_name" href="#">Главная</a></li>
+            </ul>
+        </li>
+
+        <!--myTasks-->
+        <li class="nav-links-list">
+            <a href="/task">
+                <i class='bx bx-task'></i>
+                <span class="link_name">Мои задачи</span>
+            </a>
+
+            <ul class="sub-menu blank">
+                <li><a class="link_name" href="#">Мои задачи</a></li>
+            </ul>
+        </li>
+
+        <!--statPage-->
+        <li class="nav-links-list">
+            <a href="/stat" sec:authorize = "hasRole('ROLE_USER')">
+                <i class='bx bx-line-chart'></i>
+                <span class="link_name">Статистика</span>
+            </a>
+
+            <ul class="sub-menu blank">
+                <li><a class="link_name" href="#">Статистика</a></li>
+            </ul>
+        </li>
+
+        <li class="nav-links-list">
+            <a href="/executors" sec:authorize="hasRole('ROLE_ADMIN')">
+                <i class='bx bx-user-circle'></i>
+                <span class="link_name">Пользователи</span>
+            </a>
+
+            <ul class="sub-menu blank">
+                <li><a class="link_name">Пользователи</a></li>
+            </ul>
+        </li>
+
+        <li class="nav-links-list">
+            <a href="/adminStat" sec:authorize = "hasRole('ROLE_ADMIN')">
+                <i class='bx bx-line-chart'></i>
+                <span class="link_name">Статистика пользователей</span>
+            </a>
+
+            <ul class="sub-menu blank">
+                <li><a class="link_name">Статистика пользователей</a></li>
+            </ul>
+        </li>
+
+        <!--settingsPage-->
+        <li class="nav-links-list">
+            <a href="/settings">
+                <i class='bx bx-cog'></i>
+                <span class="link_name">Настройки</span>
+            </a>
+
+            <ul class="sub-menu blank">
+                <li><a class="link_name" href="#">Настройки</a></li>
+            </ul>
+        </li>
+
+        <!--infoPage-->
+        <li class="nav-links-list">
+            <a href="/info">
+                <i class='bx bx-info-circle'></i>
+                <span class="link_name">Информация</span>
+            </a>
+
+            <ul class="sub-menu blank">
+                <li><a class="link_name" href="#">Информация</a></li>
+            </ul>
+        </li>
+    </ul>
+</div>
+
+<!--mainBar-->
+<div class="home-section">
+    <div class="home-content">
+        <i class='bx bx-menu'></i>
+        <span class="text">Настройки</span>
+    </div>
+
+    <div class="homeContentGreetingText">
+        <div class="homeContentGreetingTextContainer">
+            <span class="textGreeting time" th:text="${time}"></span>
+            <span class="text">Добро Пожаловать!</span>
+            <span class="text" th:text="${person}"></span>
+        </div>
+    </div>
+
+    <!--homeSectionBackground-->
+    <div class="homeSectionContentBar">
+        <!--table-->
+        <div class="tableContentBar">
+            <div class="contentCenterBar">
+                <h2>Информация о задаче</h2>
+                <div class="showTaskContent">
+                    <div class="showTaskFirstSegment">
+                        <div class="showTaskContainer">
+                            <label for="task_name">Название: </label>
+                            <p type="text" th:text="${taskArchive.getTask_name()}" name="task_name" id="task_name"  th:title="${taskArchive.getTask_name()}"/>
+                        </div>
+
+                        <div class="showTaskContainer">
+                            <label class="form_label" for="task_desc">Описание: </label>
+                            <p class="form_input" type="text" th:text="${taskArchive.getTask_desc()}" name="task_desc" id="task_desc" />
+                        </div> 
+                    </div> 
+
+                    <div class="showTaskSecondSegment">
+                        <div class="showTaskContainer">
+                            <label class="form_label" for="task_date">Дата: </label>
+                            <p class="form_input" type="text" th:text="${taskArchive.getTask_date()}" name="task_date" id="task_date" />
+                        </div>
+
+                        <div class="showTaskContainer">
+                            <label class="form_label" for="task_executor_name">Исполнитель: </label>
+                            <p class="form_input" type="text" th:text="${taskArchive.getTask_executor_name()}" name="task_executor_name" id="task_executor_name" />
+                        </div>
+                    </div>
+
+                    <div class="showTaskThirdSegment">
+                        <div class="showTaskContainer">
+                            <label class="form_label">Статус задачи: </label>
+                            <p class="form_input" type="text" th:text="${(taskArchive.getReportStatus() == 0)? 'Идёт проверка':
+                            (taskArchive.getReportStatus() != 2 ) ? 'Принято': 'Не принято'}"/>
+                        </div>
+                    </div>
+
+                    <div class="showTaskFourthSegment">
+                        <div class="showTaskContainer">
+                            <p>Отчёт: </p>
+                            <label class="form_label">Изображение: </label>
+
+                            <div class="images" th:each="image : ${img}">
+                                <img th:src="@{/taskArchiveImage/{id} (id = ${image.id})}" class="normalWidth">
+                            </div>
+                        </div>
+
+                        <div class="showTaskContainer">
+                            <label class="form_label">Описание отчёта: </label>
+                            <p class="form_input" th:text="${taskArchive.getReport_desc()}"></p>
+                        </div>
+                    </div>
+
+                    <div class="showTaskFifthSegment">
+                        <div class="showTaskButtons marginTwoProc">
+                            <a href="/stat" class="button blueButton" sec:authorize="hasRole('ROLE_USER')">Назад</a>
+                        </div>
+
+                        <div class="showTaskButtons marginTwoProc">
+                            <a href="/adminStat" class="button blueButton" sec:authorize="hasRole('ROLE_ADMIN')">Назад</a>
+                        </div>
+
+                        <form class="marginTwoProc" th:method="POST" th:action="@{/taskArchive/{id}/changeReportStatusSuc (id=${taskArchive.getId()})}" sec:authorize="hasRole('ROLE_ADMIN')">
+                            <div onclick="this.closest('form').submit();return false;" class="button redButton">
+                                <p>Отметить как выполненное</p>
+                            </div>
+                        </form>
+
+                        <form class="marginTwoProc" th:method="POST" th:action="@{/taskArchive/{id}/changeReportStatusWrong (id=${taskArchive.getId()})}" sec:authorize="hasRole('ROLE_ADMIN')">
+                            <div onclick="this.closest('form').submit();return false;" class="button redButton">
+                                <p>Отметить как невыполненное</p>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="/script/imageScript.js"></script>
+<script src="/script/script.js"></script>
+</body>
+</html>

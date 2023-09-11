@@ -9,6 +9,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+
 import org.taskManager.services.PersonDetailsService;
 
 @EnableWebSecurity
@@ -24,9 +25,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception{
-        //login
-        http.csrf().disable().authorizeRequests()
-                .antMatchers("/auth/login","/auth/registration","/error","/css/auth.css").permitAll()
+        http.authorizeRequests()
+                .antMatchers("/auth/login","/executorRegistration","/error","/css/auth.css",
+                        "/script/auth.js", "/image/logoShortPreloader.svg","/image/logoShortPreloaderDark.svg","/image/logoSecDark.svg","/css/style.css").permitAll()
                 .anyRequest().hasAnyRole("USER","ADMIN")
                 .and()
                 .formLogin().loginPage("/auth/login")
@@ -46,4 +47,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     public PasswordEncoder getPasswordEncoder() {
         return new BCryptPasswordEncoder();
     }
+
 }
+
+

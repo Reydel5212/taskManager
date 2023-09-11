@@ -1,4 +1,7 @@
-package org.taskManager.models;
+package org.taskManager.models.object;
+
+import org.taskManager.models.image.ProfileImage;
+import org.taskManager.repositories.objectRepository.PeopleRepository;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
@@ -9,7 +12,6 @@ import java.util.ArrayList;
 @Entity
 @Table(name = "Person")
 public class Person {
-
     @Id
     @Column(name = "person_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -34,9 +36,6 @@ public class Person {
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "person")
     private List<ProfileImage> profileImages = new ArrayList<>();
-
-    /*@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "person")
-    private List<Task> tasks = new ArrayList<>();*/
 
     public void addImageToProduct(ProfileImage image) {
         image.setPerson(this);
@@ -96,4 +95,5 @@ public class Person {
     public void setProfileImages(List<ProfileImage> profileImages) {
         this.profileImages = profileImages;
     }
+
 }

@@ -1,4 +1,4 @@
-package org.taskManager.pageController;
+package org.taskManager.controllers.pageController;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -9,11 +9,9 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 
 import org.springframework.web.multipart.MultipartFile;
-import org.taskManager.models.Person;
+import org.taskManager.models.object.Person;
 import org.taskManager.services.AdminService;
-import org.taskManager.services.GeneralService;
-import org.taskManager.services.PersonDetailsService;
-import org.taskManager.services.RegistrationService;
+import org.taskManager.services.*;
 import org.taskManager.util.PersonValidator;
 
 import java.io.IOException;
@@ -59,9 +57,8 @@ public class AuthController {
 
         personValidator.validate(person, bindingResult);
 
+        generalService.getGeneralModels(model);
         model.addAttribute("executorProfileName", generalService.getPersonDetails());
-        model.addAttribute("time", generalService.getCurrentDate());
-        model.addAttribute("profileImg", personDetailsService.findOne(generalService.getPersonId()).getProfileImages());
 
         if (file1.isEmpty()){
             return "/auth/registration";

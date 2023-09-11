@@ -5,7 +5,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
-import org.taskManager.models.Person;
+import org.taskManager.models.object.Person;
 import org.taskManager.services.PersonDetailsService;
 
 @Component
@@ -33,5 +33,7 @@ public class PersonValidator implements Validator {
         }
 
         errors.rejectValue("username","","Человек с таким именем уже существует");
+
     }
+
 }

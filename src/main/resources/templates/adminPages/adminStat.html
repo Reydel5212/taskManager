@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head>
+    <meta charset="UTF-8">
+    <title> Статистика </title>
+    <link rel="stylesheet" href="/css/style.css">
+    <!-- Boxiocns CDN Link -->
+    <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="shortcut icon" href="/image/logoSecDark.svg" type="image/x-icon">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+
+<body>
+<!--preloader-->
+<div class="preloader">
+    <img src="/image/logoShortPreloader.svg" alt="" class="preloaderLogo">
+</div>
+
+<!--sideBar-->
+<div class="sidebar close">
+    <!--logo-->
+    <div class="logo-details">
+        <img src="/image/logoSec.svg" alt="logo" class="logo">
+        <span class="logo_name">melia</span>
+    </div>
+
+    <!--links-->
+    <ul class="nav-links">
+        <!--profile-->
+        <li class="nav-links-list">
+            <div class="profile-details">
+                <div class="profile-content" th:each="image : ${profileImg}">
+                    <img th:src="@{/profileImages/{id} (id = ${image.id})}" alt="profileImg">
+                </div>
+
+                <div class="name-job">
+                    <div class="profile_name" th:text="${person}"></div>
+                </div>
+
+                <form th:action="@{/logout}" th:method="POST">
+                    <a onclick="this.closest('form').submit();return false;" href="/logout"><i class='bx bx-log-out'></i></a>
+                </form>
+            </div>
+        </li>
+
+        <!--mainPage-->
+        <li class="nav-links-list">
+            <a href="/main">
+                <i class='bx bx-home-alt'></i>
+                <span class="link_name">Главная</span>
+            </a>
+
+            <ul class="sub-menu blank">
+                <li><a class="link_name" href="#">Главная</a></li>
+            </ul>
+        </li>
+
+        <!--myTasks-->
+        <li class="nav-links-list">
+            <a href="/task">
+                <i class='bx bx-task'></i>
+                <span class="link_name">Мои задачи</span>
+            </a>
+
+            <ul class="sub-menu blank">
+                <li><a class="link_name" href="#">Мои задачи</a></li>
+            </ul>
+        </li>
+
+        <!--statPage-->
+        <li class="nav-links-list">
+            <a href="/stat" sec:authorize = "hasRole('ROLE_USER')">
+                <i class='bx bx-line-chart'></i>
+                <span class="link_name">Статистика</span>
+            </a>
+
+            <ul class="sub-menu blank">
+                <li><a class="link_name" href="#">Статистика</a></li>
+            </ul>
+        </li>
+
+        <li class="nav-links-list">
+            <a href="/executors" sec:authorize="hasRole('ROLE_ADMIN')">
+                <i class='bx bx-user-circle'></i>
+                <span class="link_name">Пользователи</span>
+            </a>
+
+            <ul class="sub-menu blank">
+                <li><a class="link_name">Пользователи</a></li>
+            </ul>
+        </li>
+
+        <li class="nav-links-list">
+            <a href="/adminStat" sec:authorize = "hasRole('ROLE_ADMIN')">
+                <i class='bx bx-line-chart'></i>
+                <span class="link_name">Статистика пользователей</span>
+            </a>
+
+            <ul class="sub-menu blank">
+                <li><a class="link_name">Статистика пользователей</a></li>
+            </ul>
+        </li>
+
+        <!--settingsPage-->
+        <li class="nav-links-list">
+            <a href="/settings">
+                <i class='bx bx-cog'></i>
+                <span class="link_name">Настройки</span>
+            </a>
+
+            <ul class="sub-menu blank">
+                <li><a class="link_name" href="#">Настройки</a></li>
+            </ul>
+        </li>
+
+        <!--infoPage-->
+        <li class="nav-links-list">
+            <a href="/info">
+                <i class='bx bx-info-circle'></i>
+                <span class="link_name">Информация</span>
+            </a>
+
+            <ul class="sub-menu blank">
+                <li><a class="link_name" href="#">Информация</a></li>
+            </ul>
+        </li>
+    </ul>
+</div>
+
+<!--mainBar-->
+<div class="home-section">
+    <div class="home-content">
+        <i class='bx bx-menu'></i>
+        <span class="text">Статистика</span>
+    </div>
+
+    <div class="homeContentGreetingText">
+        <div class="homeContentGreetingTextContainer">
+            <span class="textGreeting time" th:text="${time}"></span>
+            <span class="text">Добро Пожаловать!</span>
+            <span class="text" th:text="${person}"></span>
+        </div>
+    </div>
+
+    <!--homeSectionBackground-->
+    <div class="homeSectionContentBar">
+        <!--table-->
+        <div class="tableContentBar">
+            <div class="homeSectionContentBarTable">
+
+                <div class="tableContentCell">
+                    <p class="tableCell tableHeaderText">Всего выполненно</p>
+                </div>
+
+                <div class="tableContentCell">
+                    <p class="tableCell tableHeaderText" th:text="${taskCount}"></p>
+                </div>
+
+                <div class="tableContentCell">
+                    <p class="tableCell tableHeaderText">Название</p>
+                    <p class="tableCell tableHeaderText">Исполнитель</p>
+                    <p class="tableCell tableHeaderText">Дата выполнения</p>
+                    <p class="tableCell tableHeaderText">Планирумая дата выполнения</p>
+                    <p class="tableCell tableHeaderText">Статус</p>
+                </div>
+
+                <div class="tableContentTaskContainerStat">
+                    <div th:each="taskArchive : ${taskArchives}" >
+                        <a class="tableContentCell tableContentHover" th:href="@{taskArchive/{id} (id = ${taskArchive.getId()})}">
+                            <p class="tableCell tableTaskText" th:text="${taskArchive.getTask_name()}" />
+                            <p class="tableCell tableTaskText" th:text="${taskArchive.getTask_executor_name()}" />
+                            <p class="tableCell tableTaskText" th:text="${taskArchive.getTask_time()}" />
+                            <p class="tableCell tableTaskText" th:text="${taskArchive.getTask_date()}" />
+
+                            <p class="tableCell tableTaskText" th:text="${(taskArchive.getReportStatus() == 0)? 'Идёт проверка':
+                            (taskArchive.getReportStatus() != 2 ) ? 'Принято': 'Не принято'}"/>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="/script/smoothWheelScript.js"></script>
+<script src="/script/script.js"></script>
+</body>
+</html>

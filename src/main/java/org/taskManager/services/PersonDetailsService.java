@@ -5,11 +5,14 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-import org.taskManager.models.Person;
-import org.taskManager.repositories.PeopleRepository;
-import org.taskManager.security.PersonDetails;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
+
+import org.taskManager.models.object.Person;
+import org.taskManager.repositories.objectRepository.PeopleRepository;
+import org.taskManager.security.PersonDetails;
 
 @Service
 public class PersonDetailsService implements UserDetailsService {
@@ -29,5 +32,26 @@ public class PersonDetailsService implements UserDetailsService {
             throw new UsernameNotFoundException("User not found");
 
         return new PersonDetails(person.get());
+    }
+
+    @Transactional(readOnly = true)
+    public List<Person> findAll(){
+        return peopleRepository.findAll();
+    }
+
+    @Transactional(readOnly = true)
+    public Person findOne(int id){
+        Optional<Person> foundPerson = peopleRepository.findById(id);
+
+        return foundPerson.orElse(null);
+    }
+
+    @Transactional
+    public void deleteExecutor(int id){
+        peopleRepository.deleteById(id);
+    }
+
+    public List<Person> findAllExecutorsWithoutZero(){
+        return peopleRepository.findAllExecutorsWithoutZero();
     }
 }
