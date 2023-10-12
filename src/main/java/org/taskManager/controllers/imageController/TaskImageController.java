@@ -13,6 +13,7 @@ import java.io.ByteArrayInputStream;
 
 @RestController
 public class TaskImageController {
+
     private final ImageRepository imageRepository;
 
     public TaskImageController(ImageRepository imageRepository) {
@@ -28,4 +29,5 @@ public class TaskImageController {
                 .contentLength(image.getSize())
                 .body(new InputStreamResource(new ByteArrayInputStream(image.getBytes())));
     }
+
 }

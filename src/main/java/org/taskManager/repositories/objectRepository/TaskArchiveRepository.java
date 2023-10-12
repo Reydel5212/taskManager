@@ -10,4 +10,5 @@ import java.util.List;
 public interface TaskArchiveRepository extends JpaRepository <TaskArchive, Integer> {
     int countByTaskExecutorId(int id);
     List<TaskArchive> findAllByTaskExecutorId(int id);
+
 }

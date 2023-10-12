@@ -10,7 +10,6 @@ import org.taskManager.models.object.Person;
 import org.taskManager.models.image.ProfileImage;
 import org.taskManager.repositories.objectRepository.PeopleRepository;
 
-
 import java.io.IOException;
 
 @Service

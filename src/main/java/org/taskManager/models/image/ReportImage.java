@@ -1,14 +1,14 @@
 package org.taskManager.models.image;
 
-
-import org.taskManager.models.object.Person;
 import org.taskManager.models.object.TaskArchive;
 
 import javax.persistence.*;
+import java.util.Arrays;
 
 @Entity
 @Table(name = "report_image")
 public class ReportImage {
+
     @Id
     @Column(name = "image_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -67,8 +67,6 @@ public class ReportImage {
         this.bytes = bytes;
     }
 
-
-
     public String getContentType() {
         return contentType;
     }
@@ -84,4 +82,18 @@ public class ReportImage {
     public void setTaskArchive(TaskArchive taskArchive) {
         this.taskArchive = taskArchive;
     }
+
+    @Override
+    public String toString() {
+        return "ReportImage{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", originalFileName='" + originalFileName + '\'' +
+                ", size=" + size +
+                ", contentType='" + contentType + '\'' +
+                ", bytes=" + Arrays.toString(bytes) +
+                ", taskArchive=" + taskArchive +
+                '}';
+    }
+
 }

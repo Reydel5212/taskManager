@@ -38,6 +38,7 @@ public class SettingsController {
 
         return "redirect:/settings";
     }
+
     @PostMapping("/lightCookie")
     public String lightCookiePage(HttpServletResponse response){
         Cookie cookie = new Cookie("color","light");
@@ -54,7 +55,7 @@ public class SettingsController {
 
         response.addCookie(cookie);
 
-
         return "redirect:/settings";
     }
+
 }

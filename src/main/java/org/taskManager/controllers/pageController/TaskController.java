@@ -16,6 +16,7 @@ import java.io.IOException;
 
 @Controller
 public class TaskController {
+
     private final GeneralService generalService;
     private final AdminService adminService;
     private final TaskService taskService;
@@ -29,6 +30,7 @@ public class TaskController {
         this.taskService = taskService;
         this.personDetailsService = personDetailsService;
     }
+
     /* Standard Pages*/
     // For all
     // The task shown on the page
@@ -182,6 +184,5 @@ public class TaskController {
 
         return "pages/taskArchive";
     }
-
 
 }

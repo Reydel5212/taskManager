@@ -61,4 +61,5 @@ public class GeneralService {
         model.addAttribute("time", getCurrentDate());
         model.addAttribute("profileImg", personDetailsService.findOne(getPersonId()).getProfileImages());
     }
+
 }

@@ -54,4 +54,5 @@ public class PersonDetailsService implements UserDetailsService {
     public List<Person> findAllExecutorsWithoutZero(){
         return peopleRepository.findAllExecutorsWithoutZero();
     }
+
 }

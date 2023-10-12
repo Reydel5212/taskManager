@@ -16,4 +16,5 @@ public interface PeopleRepository extends JpaRepository<Person, Integer> {
 
     @Query(value = "select * from second_db.public.person where person_id != 0", nativeQuery = true)
     List<Person> findAllExecutorsWithoutZero();
+
 }

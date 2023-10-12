@@ -33,7 +33,6 @@ public class InfoController {
         generalService.getGeneralModels(model);
         model.addAttribute("descInfo", descriptionService.findDescription());
 
-
         return "pages/info";
     }
 
@@ -43,7 +42,6 @@ public class InfoController {
         adminService.adminLimit();
         generalService.getGeneralModels(model);
         model.addAttribute("desc", descriptionService.findOneDescription(id));
-
 
         return "adminPages/editInfo";
     }

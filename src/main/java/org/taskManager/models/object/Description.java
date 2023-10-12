@@ -44,10 +44,12 @@ public class Description {
     }
 
     @Override
-    public String toString(){
-        return "Description{ " +
-                " id = " + id +
-                " first_para = " + first_para +
-                " second_para = " + second_para;
+    public String toString() {
+        return "Description{" +
+                "id=" + id +
+                ", first_para='" + first_para + '\'' +
+                ", second_para='" + second_para + '\'' +
+                '}';
     }
+
 }

@@ -1,6 +1,5 @@
 package org.taskManager.models.object;
 
-import org.springframework.format.annotation.DateTimeFormat;
 import org.taskManager.models.image.Image;
 
 import javax.persistence.*;
@@ -8,7 +7,6 @@ import javax.validation.constraints.*;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-
 
 @Entity
 @Table(name = "task")
@@ -122,4 +120,5 @@ public class Task {
                 " taskExecutorId = "+ taskExecutorId +
                 " }";
     }
+
 }

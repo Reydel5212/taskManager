@@ -1,7 +1,6 @@
 package org.taskManager.models.object;
 
 import org.taskManager.models.image.ProfileImage;
-import org.taskManager.repositories.objectRepository.PeopleRepository;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
@@ -12,6 +11,7 @@ import java.util.ArrayList;
 @Entity
 @Table(name = "Person")
 public class Person {
+
     @Id
     @Column(name = "person_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -32,7 +32,6 @@ public class Person {
 
     @Column(name = "person_role")
     private String role;
-
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "person")
     private List<ProfileImage> profileImages = new ArrayList<>();
@@ -77,23 +76,24 @@ public class Person {
     public void setRole(String role){ this.role = role; }
     public String getRole(){ return role; }
 
-    @Override
-    public String toString() {
-        return "Person { " +
-                " id = " + id +
-                " username = " + person_profile +
-                " password = " + username +
-                " profileName = " + password +
-                " role = " + role +
-                " }";
-    }
-
     public List<ProfileImage> getProfileImages() {
         return profileImages;
     }
 
     public void setProfileImages(List<ProfileImage> profileImages) {
         this.profileImages = profileImages;
+    }
+
+    @Override
+    public String toString() {
+        return "Person{" +
+                "id=" + id +
+                ", username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                ", person_profile='" + person_profile + '\'' +
+                ", role='" + role + '\'' +
+                ", profileImages=" + profileImages +
+                '}';
     }
 
 }

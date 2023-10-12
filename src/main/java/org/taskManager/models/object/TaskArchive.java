@@ -1,11 +1,9 @@
 package org.taskManager.models.object;
 
 import org.springframework.format.annotation.DateTimeFormat;
-import org.taskManager.models.image.ProfileImage;
 import org.taskManager.models.image.ReportImage;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotEmpty;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -134,4 +132,21 @@ public class TaskArchive {
     public void setReportStatus(int reportStatus) {
         this.reportStatus = reportStatus;
     }
+
+    @Override
+    public String toString() {
+        return "TaskArchive{" +
+                "id=" + id +
+                ", task_name='" + task_name + '\'' +
+                ", task_desc='" + task_desc + '\'' +
+                ", task_date=" + task_date +
+                ", task_executor_name='" + task_executor_name + '\'' +
+                ", taskExecutorId=" + taskExecutorId +
+                ", task_time=" + task_time +
+                ", report_desc='" + report_desc + '\'' +
+                ", reportStatus=" + reportStatus +
+                ", reportImages=" + reportImages +
+                '}';
+    }
+
 }

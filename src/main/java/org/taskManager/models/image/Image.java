@@ -3,6 +3,7 @@ package org.taskManager.models.image;
 import org.taskManager.models.object.Task;
 
 import javax.persistence.*;
+import java.util.Arrays;
 
 @Entity
 @Table(name = "task_image")
@@ -79,4 +80,18 @@ public class Image {
     public void setTask(Task task) {
         this.task = task;
     }
+
+    @Override
+    public String toString() {
+        return "Image{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", originalFileName='" + originalFileName + '\'' +
+                ", size=" + size +
+                ", contentType='" + contentType + '\'' +
+                ", bytes=" + Arrays.toString(bytes) +
+                ", task=" + task +
+                '}';
+    }
+
 }

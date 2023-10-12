@@ -56,7 +56,6 @@ public class ExecutorController {
         generalService.getGeneralModels(model);
         model.addAttribute("executor", personDetailsService.findOne(id));
 
-
         return "adminPages/executorEditPage";
     }
 
@@ -70,7 +69,7 @@ public class ExecutorController {
     }
 
     @PostMapping("deleteExecutor/{id}")
-    private String deleteExecutor(@PathVariable("id") int id){
+    public String deleteExecutor(@PathVariable("id") int id){
         adminService.adminLimit();
 
         personDetailsService.deleteExecutor(id);

@@ -30,4 +30,5 @@ public interface TaskRepository extends JpaRepository<Task, Integer> {
 
     @Query(value = "select * from task where task_interval_status = ? and task_executor_id = ?", nativeQuery = true)
     List<Task> getTaskByIntervalStatusAndTaskExecutorId(int interval, int id);
+
 }

@@ -13,6 +13,7 @@ import java.io.ByteArrayInputStream;
 
 @Controller
 public class TaskArchiveImageController {
+
     private final TaskArchiveImageRepository taskArchiveImageRepository;
 
     public TaskArchiveImageController(TaskArchiveImageRepository taskArchiveImageRepository) {
@@ -20,7 +21,7 @@ public class TaskArchiveImageController {
     }
 
     @GetMapping("/taskArchiveImage/{id}")
-    private ResponseEntity<?> getImageById(@PathVariable Long id) {
+    public ResponseEntity<?> getImageById(@PathVariable Long id) {
         ReportImage image = taskArchiveImageRepository.findById(id).orElse(null);
         return ResponseEntity.ok()
                 .header("fileName", image.getOriginalFileName())
@@ -28,4 +29,5 @@ public class TaskArchiveImageController {
                 .contentLength(image.getSize())
                 .body(new InputStreamResource(new ByteArrayInputStream(image.getBytes())));
     }
+
 }

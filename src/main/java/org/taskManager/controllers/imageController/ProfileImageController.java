@@ -13,6 +13,7 @@ import java.io.ByteArrayInputStream;
 
 @Controller
 public class ProfileImageController {
+
     private final ProfileImageRepository profileImageRepository;
 
     public ProfileImageController(ProfileImageRepository profileImageRepository) {
@@ -28,4 +29,5 @@ public class ProfileImageController {
                 .contentLength(image.getSize())
                 .body(new InputStreamResource(new ByteArrayInputStream(image.getBytes())));
     }
+
 }

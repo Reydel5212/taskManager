@@ -16,7 +16,6 @@ import org.taskManager.repositories.objectRepository.TaskRepository;
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -191,4 +190,5 @@ public class TaskService {
         image.setBytes(file.getBytes());
         return image;
     }
+
 }

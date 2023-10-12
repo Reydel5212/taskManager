@@ -3,6 +3,7 @@ package org.taskManager.models.image;
 import org.taskManager.models.object.Person;
 
 import javax.persistence.*;
+import java.util.Arrays;
 
 @Entity
 @Table(name = "profile_image")
@@ -82,4 +83,18 @@ public class ProfileImage {
     public void setContentType(String contentType) {
         this.contentType = contentType;
     }
+
+    @Override
+    public String toString() {
+        return "ProfileImage{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", originalFileName='" + originalFileName + '\'' +
+                ", size=" + size +
+                ", contentType='" + contentType + '\'' +
+                ", bytes=" + Arrays.toString(bytes) +
+                ", person=" + person +
+                '}';
+    }
+
 }

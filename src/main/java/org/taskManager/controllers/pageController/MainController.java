@@ -23,7 +23,6 @@ public class MainController {
         this.taskService = taskService;
     }
 
-
     @GetMapping("/main")
     public String mainPage(Model model) {
         generalService.getGeneralModels(model);
@@ -31,7 +30,5 @@ public class MainController {
 
         return "pages/main";
     }
-
-
 
 }

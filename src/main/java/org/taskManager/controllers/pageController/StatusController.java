@@ -66,4 +66,5 @@ public class StatusController {
 
         return "redirect:/adminStat";
     }
+
 }
