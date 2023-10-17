@@ -54,9 +54,10 @@ public class TaskController {
         generalService.getGeneralModels(model);
 
         model.addAttribute("task", taskService.findOne(id));
-        model.addAttribute("img", taskService.findOne(id).getImages());
+        model.addAttribute("img", taskService.findOne(id).getGeneralImage());
         model.addAttribute("currentPersonId", generalService.getPersonId());
-
+        System.out.println(taskService.findOne(id).getGeneralImage().getImagePath());
+        System.out.println(taskService.findOne(id).getGeneralImage().getImageName());
         return "pages/show";
     }
 
@@ -76,8 +77,8 @@ public class TaskController {
     }
 
     @PostMapping("/addTask")
-    public String performTaskPage(@ModelAttribute("task") @Valid Task task, BindingResult bindingResult, @RequestParam("file1") MultipartFile file1, @RequestParam("file2") MultipartFile file2,
-                                  @RequestParam("file3") MultipartFile file3, @ModelAttribute("executor")Person person, Model model) throws IOException {
+    public String performTaskPage(@ModelAttribute("task") @Valid Task task, BindingResult bindingResult, @RequestParam("file") MultipartFile file,
+                                  @ModelAttribute("executor")Person person, Model model) {
         adminService.adminLimit();
 
         Person personProfileName = personDetailsService.findOne(person.getId());
@@ -87,13 +88,12 @@ public class TaskController {
 
             return "adminPages/addTask";}
 
-        taskService.addTask(task, file1, file2, file3, person, personProfileName);
+        taskService.addTask(file, task);
 
         return "redirect:/task";
     }
 
     // Edit task
-
     @GetMapping("task/{id}/edit")
     public String editTask(@PathVariable("id") int id, Model model){
         adminService.adminLimit();

@@ -178,8 +178,9 @@
 
                                 <div class="showTaskThirdSegment">
                                     <label class="form_label">Изображения: </label>
-                                    <div class="images" th:each="image : ${img}">
-                                        <img th:src="@{/images/{id} (id = ${image.id})}" class="normalWidth">
+                                    <div class="images" >
+<!--                                        <img th:src="@{/images/{id} (id = ${image.id})}" class="normalWidth">-->
+                                        <img th:src="${img.getImageName()}" class="normalWidth">
                                     </div>
                                 </div>
 

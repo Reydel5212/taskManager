@@ -1,5 +1,6 @@
 package org.taskManager.models.object;
 
+import org.taskManager.models.image.GeneralImage;
 import org.taskManager.models.image.Image;
 
 import javax.persistence.*;
@@ -46,11 +47,18 @@ public class Task {
             mappedBy = "task")
     private List<Image> images = new ArrayList<>();
 
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "task")
+    private GeneralImage generalImage;
+
     public void addImageToProduct(Image image) {
         image.setTask(this);
         images.add(image);
     }
 
+    public void addImageToTask(GeneralImage image){
+        image.setTask(this);
+        this.generalImage = image;
+    }
 
     public void setImages(List<Image> images){
         this.images = images;
@@ -58,7 +66,6 @@ public class Task {
     public List<Image> getImages(){
         return images;
     }
-
 
     public void setId(int id){
         this.id = id;
@@ -121,4 +128,11 @@ public class Task {
                 " }";
     }
 
+    public GeneralImage getGeneralImage() {
+        return generalImage;
+    }
+
+    public void setGeneralImage(GeneralImage generalImage) {
+        this.generalImage = generalImage;
+    }
 }

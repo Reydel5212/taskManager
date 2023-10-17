@@ -58,8 +58,6 @@ public class ProfileImage {
         this.size = size;
     }
 
-
-
     public byte[] getBytes() {
         return bytes;
     }

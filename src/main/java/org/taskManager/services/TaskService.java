@@ -4,16 +4,22 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
+import org.taskManager.models.image.GeneralImage;
 import org.taskManager.models.image.Image;
 import org.taskManager.models.image.ReportImage;
 import org.taskManager.models.object.Person;
 import org.taskManager.models.object.Task;
 import org.taskManager.models.object.TaskArchive;
+import org.taskManager.repositories.imageRepository.GeneralImageRepository;
 import org.taskManager.repositories.objectRepository.TaskArchiveRepository;
 import org.taskManager.repositories.objectRepository.TaskRepository;
 
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -23,13 +29,16 @@ import java.util.Optional;
 @Transactional(readOnly = true)
 public class TaskService {
 
+    private static final String IMAGE_DIRECTORY = "src/main/resources/TaskImages/";
     private final TaskRepository taskRepository;
     private final TaskArchiveRepository taskArchiveRepository;
+    private final GeneralImageRepository generalImageRepository;
 
     @Autowired
-    public TaskService(TaskRepository taskRepository, TaskArchiveRepository taskArchiveRepository) {
+    public TaskService(TaskRepository taskRepository, TaskArchiveRepository taskArchiveRepository, GeneralImageRepository generalImageRepository) {
         this.taskRepository = taskRepository;
         this.taskArchiveRepository = taskArchiveRepository;
+        this.generalImageRepository = generalImageRepository;
     }
 
     public List<Task> findAllByTaskExecutorId(int id){
@@ -102,10 +111,6 @@ public class TaskService {
         taskRepository.save(task);
     }
 
-    public List<Task> getTaskByTaskIntervalStatus(){
-        return taskRepository.getTaskByTaskIntervalStatus();
-    }
-
     @Transactional
     public void setTaskUpdateTimStamp(Task task){
         taskRepository.setTaskUpdateTimStamp(task.getTask_interval(), task.getId());
@@ -117,28 +122,25 @@ public class TaskService {
 
     // Add task
     @Transactional
-    public void addTask(Task task, MultipartFile file1, MultipartFile file2, MultipartFile file3, Person person, Person personProfileName) throws IOException {
-        Image image1;
-        Image image2;
-        Image image3;
-        if (file1.getSize() != 0) {
-            image1 = toImageEntity(file1);
-            task.addImageToProduct(image1);
+    public void addTask(@RequestParam("file") MultipartFile image, Task task) {
+        GeneralImage generalImage = new GeneralImage();
+        Path imagePath = Paths.get(IMAGE_DIRECTORY + image.getOriginalFilename());
+
+        try{
+            byte[] imageBytes = image.getBytes();
+
+            if(Files.exists(imagePath)){
+                System.out.println("File already exist");
+            }else {
+                Files.write(imagePath, imageBytes);
+            }
+
+        } catch (IOException e){};
+
+        if(image.getSize() != 0){
+            generalImage = toGeneralImage(image, imagePath);
+            task.addImageToTask(generalImage);
         }
-        if (file2.getSize() != 0) {
-            image2 = toImageEntity(file2);
-            task.addImageToProduct(image2);
-        }
-        if (file3.getSize() != 0) {
-            image3 = toImageEntity(file3);
-            task.addImageToProduct(image3);
-        }
-        /*for fast create*/
-        Task task1;
-        task1 = toTaskEntity(person);
-        task.setTask_executor_id(task1.getTask_executor_id());
-        task.setTask_executor_name(personProfileName.getPerson_profile());
-        task.setTask_interval_status(1);
 
         taskRepository.save(task);
     }
@@ -178,6 +180,15 @@ public class TaskService {
         image.setContentType(file.getContentType());
         image.setSize(file.getSize());
         image.setBytes(file.getBytes());
+        return image;
+    }
+
+    private GeneralImage toGeneralImage(MultipartFile file, Path path){
+        GeneralImage image = new GeneralImage();
+        image.setImageName(file.getOriginalFilename());
+        image.setImageSize(1);
+        image.setImagePath(path.toString());
+
         return image;
     }
 

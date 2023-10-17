@@ -1,29 +1,32 @@
 package org.taskManager.models.image;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import org.taskManager.models.object.Task;
+
+import javax.persistence.*;
 
 @Entity
 @Table(name = "image")
 public class GeneralImage {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "image_id")
-    Integer imageId;
+    private Integer imageId;
 
     @Column(name = "image_task_id")
-    Integer imageTaskId;
+    private Integer imageTaskId;
 
     @Column(name = "image_name")
-    String imageName;
+    private String imageName;
 
     @Column(name = "image_size")
-    Integer imageSize;
+    private Integer imageSize;
 
     @Column(name = "image_path")
-    String imagePath;
+    private String imagePath;
+
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private Task task;
 
     public Integer getImageId() {
         return imageId;
@@ -74,5 +77,13 @@ public class GeneralImage {
                 ", imageSize=" + imageSize +
                 ", imagePath='" + imagePath + '\'' +
                 '}';
+    }
+
+    public Task getTask() {
+        return task;
+    }
+
+    public void setTask(Task task) {
+        this.task = task;
     }
 }
