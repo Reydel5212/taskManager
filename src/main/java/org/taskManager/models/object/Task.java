@@ -43,29 +43,18 @@ public class Task {
     @Column(name = "task_interval_status")
     private int task_interval_status;
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY,
-            mappedBy = "task")
-    private List<Image> images = new ArrayList<>();
+
 
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "task")
     private GeneralImage generalImage;
 
-    public void addImageToProduct(Image image) {
-        image.setTask(this);
-        images.add(image);
-    }
+
 
     public void addImageToTask(GeneralImage image){
         image.setTask(this);
         this.generalImage = image;
     }
 
-    public void setImages(List<Image> images){
-        this.images = images;
-    }
-    public List<Image> getImages(){
-        return images;
-    }
 
     public void setId(int id){
         this.id = id;

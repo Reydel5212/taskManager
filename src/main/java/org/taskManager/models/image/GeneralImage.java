@@ -5,16 +5,13 @@ import org.taskManager.models.object.Task;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "image")
+@Table(name = "task_image")
 public class GeneralImage {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "image_id")
     private Integer imageId;
 
-    @Column(name = "image_task_id")
-    private Integer imageTaskId;
 
     @Column(name = "image_name")
     private String imageName;
@@ -36,13 +33,7 @@ public class GeneralImage {
         this.imageId = imageId;
     }
 
-    public Integer getImageTaskId() {
-        return imageTaskId;
-    }
 
-    public void setImageTaskId(Integer imageTaskId) {
-        this.imageTaskId = imageTaskId;
-    }
 
     public String getImageName() {
         return imageName;
@@ -72,7 +63,6 @@ public class GeneralImage {
     public String toString() {
         return "GeneralImage{" +
                 "imageId=" + imageId +
-                ", imageTaskId=" + imageTaskId +
                 ", imageName='" + imageName + '\'' +
                 ", imageSize=" + imageSize +
                 ", imagePath='" + imagePath + '\'' +

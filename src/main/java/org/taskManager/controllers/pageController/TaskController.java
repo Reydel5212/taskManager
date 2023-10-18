@@ -54,10 +54,10 @@ public class TaskController {
         generalService.getGeneralModels(model);
 
         model.addAttribute("task", taskService.findOne(id));
-        model.addAttribute("img", taskService.findOne(id).getGeneralImage());
+        model.addAttribute("taskImage", taskService.findOne(id).getGeneralImage());
         model.addAttribute("currentPersonId", generalService.getPersonId());
+
         System.out.println(taskService.findOne(id).getGeneralImage().getImagePath());
-        System.out.println(taskService.findOne(id).getGeneralImage().getImageName());
         return "pages/show";
     }
 
@@ -88,7 +88,7 @@ public class TaskController {
 
             return "adminPages/addTask";}
 
-        taskService.addTask(file, task);
+        taskService.addTask(file, task, personProfileName);
 
         return "redirect:/task";
     }
@@ -136,7 +136,7 @@ public class TaskController {
     @PostMapping("deleteTask/{id}")
     public String deleteTask(@PathVariable("id") int id){
 
-        taskService.delete(id);
+        taskService.deleteTask(id);
         return "redirect:/task";
     }
 
