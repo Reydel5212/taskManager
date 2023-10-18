@@ -2,8 +2,8 @@ package org.taskManager.repositories.imageRepository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
-import org.taskManager.models.image.ProfileImage;
+import org.taskManager.models.image.ProfileImageModel;
 
 @Repository
-public interface ProfileImageRepository extends JpaRepository<ProfileImage, Long> {
+public interface ProfileImageRepository extends JpaRepository<ProfileImageModel, Integer> {
 }

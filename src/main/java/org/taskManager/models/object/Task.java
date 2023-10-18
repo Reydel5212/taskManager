@@ -1,13 +1,10 @@
 package org.taskManager.models.object;
 
-import org.taskManager.models.image.GeneralImage;
-import org.taskManager.models.image.Image;
+import org.taskManager.models.image.TaskImageModel;
 
 import javax.persistence.*;
 import javax.validation.constraints.*;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 @Entity
 @Table(name = "task")
@@ -46,13 +43,13 @@ public class Task {
 
 
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "task")
-    private GeneralImage generalImage;
+    private TaskImageModel taskImageModel;
 
 
 
-    public void addImageToTask(GeneralImage image){
+    public void addImageToTask(TaskImageModel image){
         image.setTask(this);
-        this.generalImage = image;
+        this.taskImageModel = image;
     }
 
 
@@ -117,11 +114,11 @@ public class Task {
                 " }";
     }
 
-    public GeneralImage getGeneralImage() {
-        return generalImage;
+    public TaskImageModel getGeneralImage() {
+        return taskImageModel;
     }
 
-    public void setGeneralImage(GeneralImage generalImage) {
-        this.generalImage = generalImage;
+    public void setGeneralImage(TaskImageModel taskImageModel) {
+        this.taskImageModel = taskImageModel;
     }
 }

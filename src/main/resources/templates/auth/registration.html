@@ -31,8 +31,8 @@
         <!--profile-->
         <li  class="nav-links-list">
           <div class="profile-details">
-            <div class="profile-content" th:each="image : ${profileImg}">
-              <img th:src="@{/profileImages/{id} (id = ${image.id})}" alt="profileImg">
+            <div class="profile-content">
+              <img th:src="${profileImg.getImagePath()}" alt="profileImg">
             </div>
 
             <div class="name-job">
@@ -165,7 +165,7 @@
                   <input type="text" th:field="*{person_profile}" name="person_profile" id="person_profile" class="addTaskInput">
                   <div style="color: red" th:if="${#fields.hasErrors('person_profile')}" th:errors="*{person_profile}">Password Error</div><br>
 
-                  <input type="file" name="file1" class="marginTwoProc"><br>
+                  <input type="file" name="file" class="marginTwoProc"><br>
 
                   <div onclick="this.closest('form').submit();return false;" class="button blueButton marginTwoProc">
                     Создать

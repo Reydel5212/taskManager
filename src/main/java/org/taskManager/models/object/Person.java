@@ -1,12 +1,10 @@
 package org.taskManager.models.object;
 
-import org.taskManager.models.image.ProfileImage;
+import org.taskManager.models.image.ProfileImageModel;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
-import java.util.List;
-import java.util.ArrayList;
 
 @Entity
 @Table(name = "Person")
@@ -33,12 +31,12 @@ public class Person {
     @Column(name = "person_role")
     private String role;
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "person")
-    private List<ProfileImage> profileImages = new ArrayList<>();
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "person")
+    private ProfileImageModel profileImageModel;
 
-    public void addImageToProduct(ProfileImage image) {
+    public void addImageToPerson(ProfileImageModel image){
         image.setPerson(this);
-        profileImages.add(image);
+        this.profileImageModel = image;
     }
 
     public Person() {
@@ -76,12 +74,12 @@ public class Person {
     public void setRole(String role){ this.role = role; }
     public String getRole(){ return role; }
 
-    public List<ProfileImage> getProfileImages() {
-        return profileImages;
+    public ProfileImageModel getProfileImageModel() {
+        return profileImageModel;
     }
 
-    public void setProfileImages(List<ProfileImage> profileImages) {
-        this.profileImages = profileImages;
+    public void setProfileImageModel(ProfileImageModel profileImageModel) {
+        this.profileImageModel = profileImageModel;
     }
 
     @Override
@@ -92,7 +90,6 @@ public class Person {
                 ", password='" + password + '\'' +
                 ", person_profile='" + person_profile + '\'' +
                 ", role='" + role + '\'' +
-                ", profileImages=" + profileImages +
                 '}';
     }
 

@@ -59,7 +59,7 @@ public class GeneralService {
     public void getGeneralModels(Model model){
         model.addAttribute("person", getPersonDetails());
         model.addAttribute("time", getCurrentDate());
-        model.addAttribute("profileImg", personDetailsService.findOne(getPersonId()).getProfileImages());
+        model.addAttribute("profileImg", personDetailsService.findOne(getPersonId()).getProfileImageModel());
     }
 
 }

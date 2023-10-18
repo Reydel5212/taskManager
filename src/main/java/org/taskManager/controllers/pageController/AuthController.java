@@ -45,13 +45,13 @@ public class AuthController {
         adminService.adminLimit();
         model.addAttribute("executorProfileName", generalService.getPersonDetails());
         model.addAttribute("time", generalService.getCurrentDate());
-        model.addAttribute("profileImg", personDetailsService.findOne(generalService.getPersonId()).getProfileImages());
+        model.addAttribute("profileImg", personDetailsService.findOne(generalService.getPersonId()).getProfileImageModel());
 
         return "auth/registration";
     }
 
     @PostMapping("/registration")
-    public String performRegistration(@ModelAttribute("person") @Valid Person person, BindingResult bindingResult, Model model, @RequestParam("file1") MultipartFile file1)
+    public String performRegistration(@ModelAttribute("person") @Valid Person person, BindingResult bindingResult, Model model, @RequestParam("file") MultipartFile image)
     throws IOException {
         adminService.adminLimit();
 
@@ -60,14 +60,14 @@ public class AuthController {
         generalService.getGeneralModels(model);
         model.addAttribute("executorProfileName", generalService.getPersonDetails());
 
-        if (file1.isEmpty()){
+        if (image.isEmpty()){
             return "/auth/registration";
         }
 
         if(bindingResult.hasErrors()){
             return "/auth/registration";}
 
-        registrationService.register(person, file1);
+        registrationService.personRegistration(person, image);
 
         return "redirect:/executors";
     }

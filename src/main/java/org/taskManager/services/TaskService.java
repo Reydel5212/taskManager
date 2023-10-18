@@ -6,12 +6,12 @@ import org.springframework.transaction.annotation.Transactional;
 
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
-import org.taskManager.models.image.GeneralImage;
+import org.taskManager.models.image.TaskImageModel;
 import org.taskManager.models.image.ReportImage;
 import org.taskManager.models.object.Person;
 import org.taskManager.models.object.Task;
 import org.taskManager.models.object.TaskArchive;
-import org.taskManager.repositories.imageRepository.GeneralImageRepository;
+import org.taskManager.repositories.imageRepository.TaskImageRepository;
 import org.taskManager.repositories.objectRepository.TaskArchiveRepository;
 import org.taskManager.repositories.objectRepository.TaskRepository;
 
@@ -31,15 +31,15 @@ public class TaskService {
     private static final String IMAGE_DIRECTORY = "src/main/resources/static/TaskImages/";
     private final TaskRepository taskRepository;
     private final TaskArchiveRepository taskArchiveRepository;
-    private final GeneralImageRepository generalImageRepository;
-    private final ToImageService toImageService;
+    private final TaskImageRepository taskImageRepository;
+    private final ImageConverterService imageConverterService;
 
     @Autowired
-    public TaskService(TaskRepository taskRepository, TaskArchiveRepository taskArchiveRepository, GeneralImageRepository generalImageRepository, ToImageService toImageService) {
+    public TaskService(TaskRepository taskRepository, TaskArchiveRepository taskArchiveRepository, TaskImageRepository taskImageRepository, ImageConverterService imageConverterService) {
         this.taskRepository = taskRepository;
         this.taskArchiveRepository = taskArchiveRepository;
-        this.generalImageRepository = generalImageRepository;
-        this.toImageService = toImageService;
+        this.taskImageRepository = taskImageRepository;
+        this.imageConverterService = imageConverterService;
     }
 
     public List<Task> findAllByTaskExecutorId(int id){
@@ -65,7 +65,9 @@ public class TaskService {
     @Transactional
     public void deleteTask(int id){
         Task task = taskRepository.getById(id);
-        Path imagePath = Paths.get(IMAGE_DIRECTORY + task.getGeneralImage().getImageName());
+        String taskImagePath = task.getGeneralImage().getImageName();
+
+        Path imagePath = Paths.get(IMAGE_DIRECTORY + taskImagePath);
 
         try{
             Files.delete(imagePath);
@@ -131,7 +133,7 @@ public class TaskService {
     // Add task
     @Transactional
     public void addTask(@RequestParam("file") MultipartFile image, Task task, Person personProfileName) {
-        GeneralImage generalImage;
+        TaskImageModel taskImageModel;
         Path imagePath = Paths.get(IMAGE_DIRECTORY + image.getOriginalFilename());
 
         try{
@@ -146,23 +148,14 @@ public class TaskService {
         } catch (IOException e){};
 
         if(image.getSize() != 0){
-            generalImage = toImageService.toGeneralImage(image);
-            task.addImageToTask(generalImage);
+            taskImageModel = imageConverterService.toTaskImage(image);
+            task.addImageToTask(taskImageModel);
         }
 
         task.setTask_executor_name(personProfileName.getPerson_profile());
 
         taskRepository.save(task);
     }
-
-    //forDel
-//    private Task toTaskEntity(Person person){
-//        Task task = new Task();
-//        task.setTask_executor_name(person.getPerson_profile());
-//        task.setTask_executor_id(person.getId());
-//
-//        return task;
-//    }
 
     @Transactional
     public void addTaskArchive(Task task, TaskArchive taskArchive, MultipartFile file) throws IOException {

@@ -6,54 +6,61 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import org.springframework.web.multipart.MultipartFile;
+import org.taskManager.models.image.ProfileImageModel;
 import org.taskManager.models.object.Person;
-import org.taskManager.models.image.ProfileImage;
-import org.taskManager.repositories.objectRepository.PeopleRepository;
+import org.taskManager.repositories.objectRepository.PersonRepository;
 
-import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 @Service
 public class RegistrationService {
 
-    private final PeopleRepository peopleRepository;
+    private final PersonRepository personRepository;
     private final PasswordEncoder passwordEncoder;
+    private final ImageConverterService imageConverterService;
+    private static final String PROFILE_IMAGE_DIRECTORY = "src/main/resources/static/ProfileImages/";
 
     @Autowired
-    public RegistrationService(PeopleRepository peopleRepository, PasswordEncoder passwordEncoder){
-        this.peopleRepository = peopleRepository;
+    public RegistrationService(PersonRepository personRepository, PasswordEncoder passwordEncoder, ImageConverterService imageConverterService){
+        this.personRepository = personRepository;
         this.passwordEncoder = passwordEncoder;
+        this.imageConverterService = imageConverterService;
     }
 
     @Transactional
-    public void register(Person person,  MultipartFile file1) throws IOException{
+    public void personRegistration(Person person,  MultipartFile image) {
+        ProfileImageModel profileImage;
+        Path imagePath = Paths.get(PROFILE_IMAGE_DIRECTORY + image.getOriginalFilename());
+
+        try {
+            byte[] imageBytes = image.getBytes();
+
+            if (image.getSize() != 0) {
+
+                if(Files.exists(imagePath)){
+
+                    Files.write(imagePath, imageBytes);
+                }else {
+                    Files.write(imagePath, imageBytes);
+                }
+
+                profileImage = imageConverterService.toProfileImage(image);
+                person.addImageToPerson(profileImage);
+            }
+        } catch (Exception e){};
+
         person.setPassword(passwordEncoder.encode(person.getPassword()));
         person.setRole("ROLE_USER");
 
-        ProfileImage image1;
-
-        if (file1.getSize() != 0) {
-            image1 = toImageEntity(file1);
-            person.addImageToProduct(image1);
-        }
-
-        peopleRepository.save(person);
-    }
-
-    private ProfileImage toImageEntity(MultipartFile file) throws IOException {
-        ProfileImage image = new ProfileImage();
-        image.setName(file.getName());
-        image.setOriginalFileName(file.getOriginalFilename());
-        image.setContentType(file.getContentType());
-        image.setSize(file.getSize());
-        image.setBytes(file.getBytes());
-
-        return image;
+        personRepository.save(person);
     }
 
     @Transactional
     public void save(Person person){
         person.setPassword(passwordEncoder.encode(person.getPassword()));
-        peopleRepository.save(person);
+        personRepository.save(person);
     }
 
 }

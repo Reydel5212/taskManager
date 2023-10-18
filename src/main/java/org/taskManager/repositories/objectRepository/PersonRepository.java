@@ -10,7 +10,7 @@ import java.util.List;
 import org.taskManager.models.object.Person;
 
 @Repository
-public interface PeopleRepository extends JpaRepository<Person, Integer> {
+public interface PersonRepository extends JpaRepository<Person, Integer> {
 
     Optional<Person> findByUsername(String username);
 

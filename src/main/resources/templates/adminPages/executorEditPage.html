@@ -31,8 +31,8 @@
                 <!--profile-->
                 <li class="nav-links-list">
                     <div class="profile-details">
-                        <div class="profile-content" th:each="image : ${profileImg}">
-                            <img th:src="@{/profileImages/{id} (id = ${image.id})}" alt="profileImg">
+                        <div class="profile-content">
+                            <img th:src="${profileImg.getImagePath()}" alt="profileImg">
                         </div>
 
                         <div class="name-job">
