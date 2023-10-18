@@ -189,8 +189,8 @@
                             <p>Отчёт: </p>
                             <label class="form_label">Изображение: </label>
 
-                            <div class="images" th:each="image : ${img}">
-                                <img th:src="@{/taskArchiveImage/{id} (id = ${image.id})}" class="normalWidth">
+                            <div class="images">
+                                <img th:src="${reportImage.getImagePath()}" alt="reportImage" class="normalWidth">
                             </div>
                         </div>
 

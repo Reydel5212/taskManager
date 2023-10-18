@@ -63,7 +63,7 @@ public class ExecutorController {
     public String performEditExecutor(@PathVariable("id") int id, @ModelAttribute("executor") Person person){
         adminService.adminLimit();
 
-        registrationService.save(person);
+        registrationService.editExecutor(person);
 
         return "redirect:/executors";
     }

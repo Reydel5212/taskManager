@@ -6,8 +6,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
+import org.taskManager.models.image.ReportImageModel;
 import org.taskManager.models.image.TaskImageModel;
-import org.taskManager.models.image.ReportImage;
 import org.taskManager.models.object.Person;
 import org.taskManager.models.object.Task;
 import org.taskManager.models.object.TaskArchive;
@@ -28,7 +28,8 @@ import java.util.Optional;
 @Transactional(readOnly = true)
 public class TaskService {
 
-    private static final String IMAGE_DIRECTORY = "src/main/resources/static/TaskImages/";
+    private static final String TASK_IMAGE_DIRECTORY = "src/main/resources/static/TaskImages/";
+    private static final String REPORT_IMAGE_DIRECTORY = "src/main/resources/static/ReportImages/";
     private final TaskRepository taskRepository;
     private final TaskArchiveRepository taskArchiveRepository;
     private final TaskImageRepository taskImageRepository;
@@ -67,7 +68,7 @@ public class TaskService {
         Task task = taskRepository.getById(id);
         String taskImagePath = task.getGeneralImage().getImageName();
 
-        Path imagePath = Paths.get(IMAGE_DIRECTORY + taskImagePath);
+        Path imagePath = Paths.get(TASK_IMAGE_DIRECTORY + taskImagePath);
 
         try{
             Files.delete(imagePath);
@@ -133,23 +134,26 @@ public class TaskService {
     // Add task
     @Transactional
     public void addTask(@RequestParam("file") MultipartFile image, Task task, Person personProfileName) {
-        TaskImageModel taskImageModel;
-        Path imagePath = Paths.get(IMAGE_DIRECTORY + image.getOriginalFilename());
+        TaskImageModel taskImage;
 
-        try{
-            byte[] imageBytes = image.getBytes();
+        Path imagePath = Paths.get(TASK_IMAGE_DIRECTORY + image.getOriginalFilename());
 
-            if(Files.exists(imagePath)){
-                System.out.println("File already exist");
-            }else {
-                Files.write(imagePath, imageBytes);
-            }
-
-        } catch (IOException e){};
 
         if(image.getSize() != 0){
-            taskImageModel = imageConverterService.toTaskImage(image);
-            task.addImageToTask(taskImageModel);
+
+            try{
+                byte[] imageBytes = image.getBytes();
+
+                if(Files.exists(imagePath)){
+                    System.out.println("File already exist");
+                }else {
+                    Files.write(imagePath, imageBytes);
+                }
+
+            } catch (IOException e){};
+
+            taskImage = imageConverterService.toTaskImage(image);
+            task.addImageToTask(taskImage);
         }
 
         task.setTask_executor_name(personProfileName.getPerson_profile());
@@ -158,13 +162,28 @@ public class TaskService {
     }
 
     @Transactional
-    public void addTaskArchive(Task task, TaskArchive taskArchive, MultipartFile file) throws IOException {
-        ReportImage image;
+    public void addTaskArchive(Task task, TaskArchive taskArchive, MultipartFile image) {
+        ReportImageModel reportImage;
 
-        if (file.getSize() != 0) {
-            image = toReportImageEntity(file);
-            taskArchive.addImageToProduct(image);
+        Path imagePath = Paths.get(REPORT_IMAGE_DIRECTORY + image.getOriginalFilename());
+
+        if(image.getSize() != 0){
+
+            try{
+                byte[] imageBytes = image.getBytes();
+
+                if(Files.exists(imagePath)){
+                    System.out.println("File already exist");
+                }else {
+                    Files.write(imagePath, imageBytes);
+                }
+
+            } catch (IOException e){};
+
+            reportImage = imageConverterService.toReportImage(image);
+            taskArchive.addTaskToTaskArchive(reportImage);
         }
+
 
         taskArchive.setTask_name(task.getTask_name());
         taskArchive.setTask_desc(task.getTask_desc());
@@ -175,15 +194,5 @@ public class TaskService {
         taskArchive.setReportStatus(0);
 
         taskArchiveRepository.save(taskArchive);
-    }
-
-    private ReportImage toReportImageEntity(MultipartFile file) throws IOException {
-        ReportImage image = new ReportImage();
-        image.setName(file.getName());
-        image.setOriginalFileName(file.getOriginalFilename());
-        image.setContentType(file.getContentType());
-        image.setSize(file.getSize());
-        image.setBytes(file.getBytes());
-        return image;
     }
 }

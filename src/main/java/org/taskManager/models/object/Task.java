@@ -40,18 +40,13 @@ public class Task {
     @Column(name = "task_interval_status")
     private int task_interval_status;
 
-
-
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "task")
     private TaskImageModel taskImageModel;
-
-
 
     public void addImageToTask(TaskImageModel image){
         image.setTask(this);
         this.taskImageModel = image;
     }
-
 
     public void setId(int id){
         this.id = id;

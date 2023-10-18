@@ -12,7 +12,6 @@ import org.taskManager.models.object.TaskArchive;
 import org.taskManager.services.*;
 
 import javax.validation.Valid;
-import java.io.IOException;
 
 @Controller
 public class TaskController {
@@ -162,7 +161,7 @@ public class TaskController {
     }
 
     @PostMapping("task/{id}/report")
-    public String performReportPage(@PathVariable("id") int id, TaskArchive taskArchive, @RequestParam("file1") MultipartFile file, Model model) throws IOException {
+    public String performReportPage(@PathVariable("id") int id, TaskArchive taskArchive, @RequestParam("file") MultipartFile file) {
         Task task = taskService.findOne(id);
 
         taskService.addTaskArchive(task, taskArchive, file);
@@ -179,7 +178,8 @@ public class TaskController {
     @GetMapping("taskArchive/{id}")
     private String taskArchive(@PathVariable("id") int id, Model model){
         model.addAttribute("taskArchive", taskService.findTaskArchiveById(id));
-        model.addAttribute("img", taskService.findTaskArchiveById(id).getReportImages());
+        model.addAttribute("reportImage", taskService.findTaskArchiveById(id).getReportImage());
+
         generalService.getGeneralModels(model);
 
         return "pages/taskArchive";

@@ -1,12 +1,10 @@
 package org.taskManager.models.object;
 
 import org.springframework.format.annotation.DateTimeFormat;
-import org.taskManager.models.image.ReportImage;
+import org.taskManager.models.image.ReportImageModel;
 
 import javax.persistence.*;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 @Entity
 @Table(name = "task_archive")
@@ -45,12 +43,12 @@ public class TaskArchive {
     @Column(name = "report_status")
     private int reportStatus;
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "taskArchive")
-    private List<ReportImage> reportImages = new ArrayList<>();
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "taskArchive")
+    private ReportImageModel reportImage;
 
-    public void addImageToProduct(ReportImage reportImage) {
-        reportImage.setTaskArchive(this);
-        reportImages.add(reportImage);
+    public void addTaskToTaskArchive(ReportImageModel image) {
+        image.setTaskArchive(this);
+        this.reportImage = image;
     }
 
     public int getId() {
@@ -109,14 +107,6 @@ public class TaskArchive {
         this.task_time = task_time;
     }
 
-    public List<ReportImage> getReportImages() {
-        return reportImages;
-    }
-
-    public void setReportImages(List<ReportImage> reportImages) {
-        this.reportImages = reportImages;
-    }
-
     public String getReport_desc() {
         return report_desc;
     }
@@ -133,6 +123,14 @@ public class TaskArchive {
         this.reportStatus = reportStatus;
     }
 
+    public ReportImageModel getReportImage() {
+        return reportImage;
+    }
+
+    public void setReportImage(ReportImageModel reportImage) {
+        this.reportImage = reportImage;
+    }
+
     @Override
     public String toString() {
         return "TaskArchive{" +
@@ -145,8 +143,7 @@ public class TaskArchive {
                 ", task_time=" + task_time +
                 ", report_desc='" + report_desc + '\'' +
                 ", reportStatus=" + reportStatus +
-                ", reportImages=" + reportImages +
+                ", reportImage=" + reportImage +
                 '}';
     }
-
 }

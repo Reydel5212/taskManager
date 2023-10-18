@@ -58,7 +58,7 @@ public class RegistrationService {
     }
 
     @Transactional
-    public void save(Person person){
+    public void editExecutor(Person person){
         person.setPassword(passwordEncoder.encode(person.getPassword()));
         personRepository.save(person);
     }
