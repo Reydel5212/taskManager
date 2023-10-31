@@ -30,7 +30,7 @@ public class DescriptionService {
     }
 
     @Transactional
-    public void save(Description description){
+    public void changeDescription(Description description){
         descriptionRepository.save(description);
     }
 

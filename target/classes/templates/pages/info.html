@@ -150,7 +150,7 @@
                 <!--table-->
                 <div class="tableContentBar">
                     <div class="contentCenterBarSec">
-                        <div class="containerCenterInfo" th:each="desc : ${descInfo}">
+                            <div class="containerCenterInfo" th:each="desc : ${descInfo}">
                                 <div class=" tableContentButton" sec:authorize="hasRole('ROLE_ADMIN')">
                                     <a th:href="@{info/{id}/edit (id = ${desc.getId()})}" class="button blueButton" value="Отменить">Редактировать</a>
                                 </div>
@@ -158,10 +158,9 @@
                                 <h2>Новость дня</h2>
 
                                 <p th:text="${desc.getFirst_para()}"></p>
-                    
+
                                 <p th:text="${desc.getSecond_para()}"></p>
                             </div>
-                        </div>
                     </div>
                 </div>
             </div>

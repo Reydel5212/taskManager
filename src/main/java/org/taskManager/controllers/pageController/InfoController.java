@@ -48,7 +48,7 @@ public class InfoController {
     @PostMapping("editInfo/{id}")
     public String performEditInfo(@PathVariable("id") int id, @ModelAttribute("desc") Description description){
         adminService.adminLimit();
-        descriptionService.save(description);
+        descriptionService.changeDescription(description);
 
         return "redirect:/info";
     }
