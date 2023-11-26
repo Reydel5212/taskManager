@@ -1,4 +1,4 @@
-package org.taskManager.controllers.pageController;
+package org.taskManager.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
